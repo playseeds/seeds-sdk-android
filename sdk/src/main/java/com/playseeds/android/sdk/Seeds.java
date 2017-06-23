@@ -62,10 +62,10 @@ public class Seeds {
     private boolean enableLogging_;
     private Seeds.CountlyMessagingMode messagingMode_;
     private Context context_;
-    protected static List<String> publicKeyPinCertificates;
+    static List<String> publicKeyPinCertificates;
     private IInAppBillingService billingService;
     private AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-    private MainActivityEventListener mainActivityEventListener;
+    private ActivityLifecycleManager activityLifecycleManager;
 
     /**
      * Current version of the Count.ly Android SDK as a displayable string.
@@ -127,7 +127,7 @@ public class Seeds {
      * you'll be able to choose whether you want to send a message to ly.count.android.sdk.test devices,
      * or to production ones.
      */
-    public enum CountlyMessagingMode {
+    enum CountlyMessagingMode {
         TEST,
         PRODUCTION,
     }
@@ -148,26 +148,19 @@ public class Seeds {
      * @throws java.lang.IllegalStateException if the Seeds SDK has already been initialized or Android SDK is too old
      */
     public Seeds simpleInit(final Activity activity, final InAppMessageListener listener, final String serverURL, final String appKey) {
-        final boolean apiSupportsLifecycleCallbacks =
-                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
-        if (apiSupportsLifecycleCallbacks) {
-            DeviceId.Type idMode = OpenUDIDAdapter.isOpenUDIDAvailable() ? DeviceId.Type.OPEN_UDID : DeviceId.Type.ADVERTISING_ID;
+        DeviceId.Type idMode = OpenUDIDAdapter.isOpenUDIDAvailable() ? DeviceId.Type.OPEN_UDID : DeviceId.Type.ADVERTISING_ID;
 
-            // Pre-initialize SDK without the billing service
-            Seeds sdk = Seeds.sharedInstance()
-                    .init(activity, null, listener, serverURL, appKey, null, idMode);
+        // Pre-initialize SDK without the billing service
+        Seeds sdk = Seeds.sharedInstance()
+                .init(activity, null, listener, serverURL, appKey, null, idMode);
 
-            // MainActivityEventListener takes care of the creation of the billing service
-            // and binds to the main activity lifecycle hooks
-            mainActivityEventListener =
-                    new MainActivityEventListener(activity, listener, serverURL, appKey, null, idMode);
-            mainActivityEventListener.resolve();
+        // ActivityLifecycleManager takes care of the creation of the billing service
+        // and binds to the main activity lifecycle hooks
+        activityLifecycleManager = new ActivityLifecycleManager(activity, listener, serverURL, appKey, null, idMode);
+        activityLifecycleManager.resolve();
 
-            return sdk;
-        } else {
-            throw new IllegalStateException("You can't use automatedInit with Android SDK version <= 13");
-        }
+        return sdk;
     }
 
     /**

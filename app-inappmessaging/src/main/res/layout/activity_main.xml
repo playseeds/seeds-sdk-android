@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Do a social good purchase"
-        android:id="@+id/iamButton1"
+        android:interstitialId="@+interstitialId/iamButton1"
         android:onClick="startSocialGoodPurchase"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp" />
@@ -19,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Do a normal in-app purchase"
-        android:id="@+id/iamButton2"
+        android:interstitialId="@+interstitialId/iamButton2"
         android:onClick="startNormalPurchase"
-        android:layout_below="@id/iamButton1"
+        android:layout_below="@interstitialId/iamButton1"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp" />
 

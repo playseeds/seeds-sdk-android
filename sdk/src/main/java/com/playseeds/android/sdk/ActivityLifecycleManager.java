@@ -25,7 +25,7 @@ import com.playseeds.android.sdk.inappmessaging.InAppMessageListener;
  */
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class MainActivityEventListener implements Application.ActivityLifecycleCallbacks {
+public class ActivityLifecycleManager implements Application.ActivityLifecycleCallbacks {
     private Activity mainActivity;
     private final InAppMessageListener listener;
     private final String serverURL;
@@ -35,7 +35,7 @@ public class MainActivityEventListener implements Application.ActivityLifecycleC
     private ServiceConnection mServiceConn;
     IInAppBillingService mService;
 
-    public MainActivityEventListener(Activity mainActivity, InAppMessageListener listener, String serverURL, String appKey, String deviceID, DeviceId.Type idMode) {
+    public ActivityLifecycleManager(Activity mainActivity, InAppMessageListener listener, String serverURL, String appKey, String deviceID, DeviceId.Type idMode) {
         this.mainActivity = mainActivity;
         this.listener = listener;
         this.serverURL = serverURL;
