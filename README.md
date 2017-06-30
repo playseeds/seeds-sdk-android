@@ -7,10 +7,10 @@
 - [iOS](https://github.com/therealseeds/seeds-sdk-ios)
 - [Android](https://github.com/therealseeds/seeds-sdk-android)
 - [API](https://github.com/therealseeds/seeds-public-api)
-****
+
 ## Pull requests welcome
 We're built on open source and welcome bug fixes and other contributions.
-****
+
 ## Download
 
 Gradle:
@@ -27,14 +27,14 @@ Or Maven:
 </dependency>
 ```
 Seeds requires at minimum Android 4.1.
-****
+
 ## ProGuard
 
 If you are using ProGuard you might need to add the following options (currently SDK do not support ProGuard):
 ```
 -keep com.playseeds.**
 ```
-****
+
 ## Usage
 Seeds functionality is spread into two parts for more comfortable usage: [Interstitials](#interstitials_header) that represents all functionality that is connected to the advirtisments and [Events](#events_header) that represents logging analytics data.
 
@@ -73,6 +73,7 @@ void onShown(SeedsInterstitial seedsInterstitial);
 void onDismissed(SeedsInterstitial seedsInterstitial);
 void onError(String interstitialId, Exception exception);
 ```
+
 ### <a name="events_header"></a>Seeds.Events
 - Track the Seeds-promoted in-app purchases for trancaction with transactionId:
 ```java
@@ -90,7 +91,7 @@ Seeds.events().logUser(UserInfo info);
 ```java
 Seeds.events().logEvent(Event event);
 ```
-***
+
 ## License
 
     Copyright (c) 2012, 2013 Countly
