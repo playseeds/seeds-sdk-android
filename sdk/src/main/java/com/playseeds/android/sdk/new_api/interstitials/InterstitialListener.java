@@ -14,7 +14,7 @@ public interface InterstitialListener {
      *
      * @param seedsInterstitial The clicked {@link SeedsInterstitial}.
      */
-    void onPurchaseClick(SeedsInterstitial seedsInterstitial);
+    void onClick(SeedsInterstitial seedsInterstitial);
 
     /**
      * Called when {@link SeedsInterstitial}, to what this listener is assigned, was shown.
@@ -22,6 +22,13 @@ public interface InterstitialListener {
      * @param seedsInterstitial The shown {@link SeedsInterstitial}.
      */
     void onShown(SeedsInterstitial seedsInterstitial);
+
+    /**
+     * Called when {@link SeedsInterstitial}, to what this listener is assigned, was dismissed.
+     *
+     * @param seedsInterstitial The shown {@link SeedsInterstitial}.
+     */
+    void onDismissed(SeedsInterstitial seedsInterstitial);
 
     /**
      * Called when the request could not be executed due to some reasons.

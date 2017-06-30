@@ -12,7 +12,7 @@ abstract public class InterstitialListenerAdapter implements InterstitialListene
      * {@inheritDoc}
      */
     @Override
-    public void onPurchaseClick(SeedsInterstitial seedsInterstitial) {}
+    public void onClick(SeedsInterstitial seedsInterstitial) {}
 
     /**
      * {@inheritDoc}

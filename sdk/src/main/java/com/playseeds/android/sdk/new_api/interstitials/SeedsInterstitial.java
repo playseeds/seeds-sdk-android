@@ -7,9 +7,10 @@ import android.support.annotation.Nullable;
  *
  * @see InterstitialListener
  */
-class SeedsInterstitial {
+public class SeedsInterstitial {
 
-    public static final int NO_PRICE = -1;
+    public static final String NO_PRICE = "";
+    public static final String NO_CONTEXT = "";
 
     /**
      * Id of the interstitial
@@ -17,27 +18,33 @@ class SeedsInterstitial {
     private String interstitialId;
 
     /**
-     * Context, that represent the current interstitial, might be null.
+     * Context, that represent the current interstitial.
+     * This field is {@link SeedsInterstitial#NO_CONTEXT} by default.
      */
     @Nullable
-    private String context;
+    private String context = NO_CONTEXT;
 
     /**
-     * Specified price for this interstitial. This field if {@link SeedsInterstitial#NO_PRICE} by default.
+     * Specified price for this interstitial.
+     * This field is {@link SeedsInterstitial#NO_PRICE} by default.
      */
-    private double price = NO_PRICE;
+    private String price = NO_PRICE;
 
-    public SeedsInterstitial(String interstitialId, double price) {
-
+    public SeedsInterstitial(String interstitialId) {
         this.interstitialId = interstitialId;
-        this.price = price;
     }
 
-    public SeedsInterstitial(String interstitialId, @Nullable String context, double price) {
+    public SeedsInterstitial(String interstitialId, @Nullable String price) {
 
         this.interstitialId = interstitialId;
-        this.context = context;
-        this.price = price;
+        this.price = price == null ? NO_PRICE : price;
+    }
+
+    public SeedsInterstitial(String interstitialId, @Nullable String context, @Nullable String price) {
+
+        this.interstitialId = interstitialId;
+        this.context = context == null ? NO_CONTEXT : context;
+        this.price = price == null ? NO_PRICE : price;
     }
 
     /**
@@ -65,7 +72,7 @@ class SeedsInterstitial {
      *
      * @return the price of the interstitial.
      */
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 }

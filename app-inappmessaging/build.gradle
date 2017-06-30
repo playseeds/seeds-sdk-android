@@ -16,12 +16,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    //TODO: remove
-    lintOptions {
-        abortOnError false
-    }
-    productFlavors {
-    }
 }
 
 dependencies {
@@ -37,4 +31,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     compile project(':sdk')
+//    compile('com.playseeds:android-sdk:0.4.1')
 }

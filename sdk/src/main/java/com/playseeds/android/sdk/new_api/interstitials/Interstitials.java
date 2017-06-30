@@ -1,6 +1,7 @@
 package com.playseeds.android.sdk.new_api.interstitials;
 
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 
 /**
  * An interface, that is used in the {@link com.playseeds.android.sdk.Seeds} to wrap the block of the
@@ -9,20 +10,19 @@ import android.support.annotation.Nullable;
 public interface Interstitials {
 
     /**
-     * @see Interstitials#fetch(String, String, double, InterstitialListener) )
-     */
-    void fetch(String interstitialId, String context, InterstitialListener listener);
-
-    /**
      * Downloads the required interstitial.
      *
      * @param interstitialId the interstitialId of the interstitial.
      * @param context the context for the interstitial. Might be null.
-     * @param manualPrice the custom price for the requested interstitial.
-     * @param listener the instance of {@link InterstitialListener}
-     * or {@link InterstitialListenerAdapter} to handle the results. Might be null.
+     * @param manualPrice the custom price for the requested interstitial. Might be null.
+     * or {@link InterstitialListenerAdapter} to handle the results.
      */
-    void fetch(String interstitialId, @Nullable String context, double manualPrice, @Nullable InterstitialListener listener);
+    void fetch(String interstitialId, @Nullable String context, String manualPrice);
+
+    /**
+     * @see Interstitials#fetch(String, String, String) )
+     */
+    void fetch(String interstitialId, @Nullable String context);
 
     /**
      * Shows the requested interstitial. At first, will look for the interstitialId and then for the context in
@@ -42,22 +42,9 @@ public interface Interstitials {
     boolean isLoaded(String interstitialId);
 
     /**
-     * Adds the specified {@link InterstitialListener} for the specified interstitialId.
+     * Set the global {@link InterstitialListener}.
      *
-     * @param interstitialId the interstitialId to add the listener for.
-     * @param listener the listener that is being added.
+     * @param listener the listener that is being set.
      */
-    void addListener(String interstitialId, InterstitialListener listener);
-
-    /**
-     * Clears the specified {@link InterstitialListener} from the callback lists.
-     *
-     * @param listener to be cleared.
-     */
-    void removeListener(InterstitialListener listener);
-
-    /**
-     * Clears all {@link InterstitialListener}.
-     */
-    void clearListeners();
+    void setListener(InterstitialListener listener);
 }
