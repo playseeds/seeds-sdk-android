@@ -1,5 +1,7 @@
 # Seeds Android SDK
 [View Seeds' documentation](https://developers.playseeds.com/docs/android-sdk-setup.html)
+
+
 [Seeds](http://www.playseeds.com) increases paying user conversion for freemium mobile games motivating users to make their first purchase by letting them know that their purchase will help finance microloans in the developing world. The SDK implements this with an interstitial ad and event tracking analytics.
 
 ## The following platforms are now available:
@@ -15,7 +17,13 @@ We're built on open source and welcome bug fixes and other contributions.
 
 Gradle:
 ```groovy
-compile 'com.playseeds.android-sdk:0.5.0'
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile 'com.playseeds.android-sdk:0.5.0'
+}
 ```
 Or Maven:
 ```xml
@@ -46,40 +54,63 @@ Seeds.init(Context, APP_KEY);
 ```
 
 ### <a name="interstitials_header"></a>Seeds.Interstitials
+
+
+#### General rules:
+* InterstitialId is the id of the interstitial that you want to operate with;
+* Context as String (if other isn't specified) is the context of the place (e.g. "level_1", "pause", "app_start"), that will be used as the main option for the interstitials in the future releases, thus it's optional, but suggested;
+* Manual price is the localized price of the interstitial (if it exists).
+
+
 - Set the listener to receive the callback about events from the SDK where you need to, using [InterstitialListener](#interstitials_listener) or InterstitialListenerAdapter with overridden methods (if you don't need to handle all events):
 ```java
 Seeds.interstitials().setListener(InterstitialListener);
 ```
 - Pre-load the interstital. There are two options: without manual price (price will be loaded from the Play Store) or with it:
 ```java
-Seeds.interstitials().fetch(String id, @Nullable String context);
+Seeds.interstitials().fetch(String interstitialId, @Nullable String context);
 or
-Seeds.interstitials().fetch(String id, @Nullable String context, String manualPrice);
+Seeds.interstitials().fetch(String idinterstitialId, @Nullable String context, String manualPrice);
 ```
 - Check, if the interstitial is already loaded. Will return true or false:
 ```java
 Seeds.interstitials().isLoaded(String id);
 ```
-- Show the interstitial. **Please note, that onError() method of the listener will be called if the interstitial wasn't previously fetched (loaded)**:
+- Show the interstitial. **Please note, that onError() method of the listener will be called also if the interstitial wasn't previously fetched (loaded)**:
 ```java
-Seeds.interstitials().show(String interstitialId, String context);
+Seeds.interstitials().show(String interstitialId, @Nullable String context);
 ```
 #### <a name="interstitials_listener"></a>IterstitialsListener
-The listener implementation contains five methods for treating different scenarios after the opening of an interstitial has been attempted.
+The listener implementation contains five methods for treating different scenarios after the opening of an interstitial has been attempted. 
+It operates with the objects-wrapper - [SeedsInterstitial](#seeds_interstitial) to share the info about interstitials. 
+It's okay to set this listener in the any place you want and left the process of clearing it for the Seeeds, as we use [WeakReference](https://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html) for it, but if you want to be sure that there won't be any memory leaks, it's also okay to set the null to clear the listener.
 ```java
-void onLoaded(Interstitial interstitial);
+void onLoaded(SeedsInterstitial seedsInterstitial);
 void onClick(SeedsInterstitial seedsInterstitial);
 void onShown(SeedsInterstitial seedsInterstitial);
 void onDismissed(SeedsInterstitial seedsInterstitial);
 void onError(String interstitialId, Exception exception);
 ```
 
+
+#### <a name="seeds_interstitial"></a>SeedsInterstitial
+Object-wrapper for sharing info about interstitials. As for the last release, it contains:
+* InterstitialId as String;
+* Context as String, but this is optional, might be empty;
+* Manual price as String, might be empty too.
+
 ### <a name="events_header"></a>Seeds.Events
-- Track the Seeds-promoted in-app purchases for trancaction with transactionId:
+
+
+Event in the Seeds is the generalized mechanism for tracking any usefull data and in-app purchases. If you want to keep your analytic IAP data safe and sound it's the place for you. **Seeds.Events** use two approaches for logging data: direct logging for the purchases, that were made in the app, and object-based approach for sharing any other data. 
+It is reccomended to use **logSeedsIAPPayment()** or **logIAPPayment()** after any successful purchase and **logUser()** with the provided wrapper to share the existed user data that will help the Seeds' reccomendation mechanism in the future.
+Also, there are additional way to log your app's custom data - **logEvent()**, that use object-base approach with custom attributes.
+
+- Used to provide the info about in-app purchases with the Seeds goods included for the Seeds. **This method should be called after any sucessfull purchase in the app to help Seeds track the purchases and generate usefull tips, statistic and issue correct invoices.** Tracks the Seeds-promoted in-app purchases for trancaction with transactionId. Key is required here, as it's is the key of the purchase:
 ```java
 Seeds.events().logSeedsIAPPayment(String key, double price, @Nullable String transactionId);
 ```
-- Track all other in-app purchases for trancaction with transactionId:
+- Used to provide the info about other in-app purchases with for the Seeds. **This method should be called after any sucessfull purchase in the app to help Seeds track the purchases and generate usefull tips, statistic and issue correct invoices.** Tracks all other in-app purchases for trancaction with transactionId. Key is required here, as it's is the key of the purchase:
 ```java
 Seeds.events().logIAPPayment(String key, double price, @Nullable String transactionId);
 ```
