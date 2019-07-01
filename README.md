@@ -1,6 +1,6 @@
 # Seeds Android SDK
 [View Seeds' documentation](https://developers.playseeds.com/docs/android-sdk-setup.html)
-[Seeds](http://www.playseeds.com) increases paying user conversion for freemium mobile games motivating users to make their first purchase by letting them know that their purchase will help finance microloans in the developing world. The SDK implements this with an interstitial ad and event tracking analytics.
+[Seeds](http://www.playseeds.com) increases paying user conversion for freemium mobile games motivating users to make their first purchase by letting them know that their purchase will help people in need who have made Requests for Help by redeeming a Seeds token. The SDK implements this with an interstitial ad and event tracking analytics.
 
 ## The following platforms are now available:
 - [Unity SDK](https://github.com/therealseeds/seeds-sdk-unity)
